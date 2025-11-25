@@ -1,19 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, View, TouchableOpacity, Modal} from 'react-native';
 import Slider from '@react-native-community/slider'
 import React from 'react';
 import { useState } from 'react';
+import {ModalPassword} from '../app/src/components/modal'
+
+
+
+
+
+let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+
 
 export default function App() {
 
-  const [size, setSize] = useState(10)
 
+
+  const [size, setSize] = useState(10)
+  const [passwordValue, setPasswordValue] = useState("")
+  const [modalVisible, setModalVisible] = useState(false); 
+
+  function generatePassword(){
+
+    let password = "";
+    for (let i = 0, n = charset.length; i < size; i++) {
+      password += charset.charAt(Math.floor(Math.random() * n))
+    }
+    setPasswordValue(password)
+    setModalVisible(true);
+  }
 
 
   return (
     <View style={styles.container}>
        <Image  source={require("../app/src/img/logopassword.png")} style={styles.logo}/>
-      <Text style={styles.title}>20 Caracteres</Text>
+      <Text style={styles.title}>{size} Caracteres</Text>
       <View style={styles.area}>
       
 
@@ -23,12 +45,30 @@ export default function App() {
       maximumTrackTintColor='#ff0000'
       minimumTrackTintColor='#000'
       thumbTintColor='#392de9'
+      value={size}
+      onValueChange={ (value) => setSize(value.toFixed(0))}
       />
       </View >
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={generatePassword}>
         <Text style={styles.buttonText}>Gerar senha</Text>
       </TouchableOpacity>
-      
+
+
+      <Modal
+  visible={modalVisible}
+  animationType="fade"
+  transparent={true}
+>
+  <ModalPassword
+    password={passwordValue}
+    handleClose={() => setModalVisible(false)}
+
+  />
+</Modal>
+
+
+
+
     </View>
   );
 }
