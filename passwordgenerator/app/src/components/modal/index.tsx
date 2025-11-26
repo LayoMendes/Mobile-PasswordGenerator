@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
-import { withoutANSIColorStyles } from "react-native/types_generated/Libraries/LogBox/Data/parseLogBoxLog";
 
-export function ModalPassword(){
+export function ModalPassword({ password, handleClose }) {
     return (
 
         <View style={styles.container}>
@@ -14,7 +13,7 @@ export function ModalPassword(){
 
 
                 <Pressable style={styles.innerPassword}>
-                    <Text style={styles.text}>123123</Text>
+                    <Text style={styles.text}>{password}</Text>
                 </Pressable>
 
                 <View style={styles.buttonArea}>
